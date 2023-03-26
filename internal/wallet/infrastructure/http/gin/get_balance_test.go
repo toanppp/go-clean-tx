@@ -10,8 +10,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/toanppp/go-clean-tx/internal/domain"
+	"github.com/toanppp/go-clean-tx/internal/mock"
 	"github.com/toanppp/go-clean-tx/internal/wallet/infrastructure/http/presenter"
-	"github.com/toanppp/go-clean-tx/mock"
 	"github.com/toanppp/go-clean-tx/pkg/assert"
 	"github.com/toanppp/go-clean-tx/pkg/httpjson"
 	"github.com/toanppp/go-clean-tx/pkg/response"
