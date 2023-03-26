@@ -20,7 +20,7 @@ import (
 
 func newMockEngine(mockWalletUseCase port.WalletUseCase) *gin.Engine {
 	mockEngine := gin.New()
-	RegisterWalletGinHTTP(mockEngine.Group(""), mockWalletUseCase)
+	RegisterWalletHTTP(mockEngine.Group(""), mockWalletUseCase)
 	return mockEngine
 }
 

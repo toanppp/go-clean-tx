@@ -17,7 +17,7 @@ func main() {
 	engine := gin.New()
 
 	wallet := engine.Group("wallet")
-	walletGin.RegisterWalletGinHTTP(wallet, walletUseCase)
+	walletGin.RegisterWalletHTTP(wallet, walletUseCase)
 
 	if err := engine.Run(); err != nil {
 		log.Print("gin.Engine.Run: ", err)

@@ -5,7 +5,7 @@ import (
 	"github.com/toanppp/go-clean-tx/internal/port"
 )
 
-func RegisterWalletGinHTTP(group *gin.RouterGroup, walletUseCase port.WalletUseCase) {
+func RegisterWalletHTTP(group *gin.RouterGroup, walletUseCase port.WalletUseCase) {
 	h := walletHandler{
 		walletUseCase: walletUseCase,
 	}
