@@ -1,4 +1,4 @@
-package wallet_http_gin
+package gin
 
 import (
 	"github.com/gin-gonic/gin"

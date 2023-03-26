@@ -1,4 +1,4 @@
-package wallet_http_gin
+package gin
 
 import (
 	"errors"
@@ -42,8 +42,8 @@ func TestGetBalance(t *testing.T) {
 	mockEngine.ServeHTTP(w, mockReq)
 
 	assert.StatusCode(t, w.Code, http.StatusOK)
-	assert.JSON(t, w.Body.String(), response.Response[wallet_http_presenter.Balance]{
-		Data: wallet_http_presenter.Balance{
+	assert.JSON(t, w.Body.String(), response.Response[presenter.Balance]{
+		Data: presenter.Balance{
 			Balance: wallet.Balance,
 		},
 		Message: http.StatusText(http.StatusOK),

@@ -55,13 +55,13 @@ Source: [MyTaskPanel Consulting](https://www.mytaskpanel.com)
 │       ├── infrastructure              # External elements with which the application communicates, both input and output
 │       │   │
 │       │   ├── http                    # Entry point: an API with REST or GraphQL, messaging with RabbitMQ or via the command line, etc.
-│       │   │   ├── gin_http
+│       │   │   ├── gin
 │       │   │   └── presenter           # Presenter (request/response format)
 │       │   │
 │       │   └── repository              # Exit point: a relational database with PostgreSQL, non-relational with MongoDB, or also sending messages with RabbitMQ, etc.
-│       │       └── memory_repository
+│       │       └── memory
 │       │
-│       └── use_case                    # Business logic happens here
+│       └── usecase                     # Business logic happens here
 └── ...
 ```
 

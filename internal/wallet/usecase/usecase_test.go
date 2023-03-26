@@ -1,4 +1,4 @@
-package wallet_use_case
+package usecase
 
 import (
 	"context"

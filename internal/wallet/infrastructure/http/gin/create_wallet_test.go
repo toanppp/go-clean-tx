@@ -1,4 +1,4 @@
-package wallet_http_gin
+package gin
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/toanppp/go-clean-tx/internal/domain"
 	"github.com/toanppp/go-clean-tx/internal/port"
-	"github.com/toanppp/go-clean-tx/internal/wallet/infrastructure/http/request"
+	"github.com/toanppp/go-clean-tx/internal/wallet/infrastructure/http/presenter"
 	"github.com/toanppp/go-clean-tx/mock"
 	"github.com/toanppp/go-clean-tx/pkg/assert"
 	"github.com/toanppp/go-clean-tx/pkg/httpjson"
@@ -39,7 +39,7 @@ func TestCreateWallet(t *testing.T) {
 	mockEngine := newMockEngine(mockWalletUseCase)
 
 	// mock request
-	mockBody := wallet_http_request.CreateWallet{
+	mockBody := presenter.CreateWallet{
 		Balance: wallet.Balance,
 	}
 	mockReq, err := httpjson.NewRequest(http.MethodPost, "/v1", mockBody)
@@ -84,7 +84,7 @@ func TestCreateWalletFail(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// mock request
-			body := wallet_http_request.CreateWallet{
+			body := presenter.CreateWallet{
 				Balance: tt.balance,
 			}
 			mockReq, err := httpjson.NewRequest(http.MethodPost, "/v1", body)
@@ -114,7 +114,7 @@ func TestCreateWalletError(t *testing.T) {
 	mockEngine := newMockEngine(mockWalletUseCase)
 
 	// mock request
-	body := wallet_http_request.CreateWallet{
+	body := presenter.CreateWallet{
 		Balance: rand.Int63(),
 	}
 	req, err := httpjson.NewRequest(http.MethodPost, "/v1", body)

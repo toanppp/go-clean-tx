@@ -1,4 +1,4 @@
-package gin_response
+package ginresp
 
 import (
 	"net/http"

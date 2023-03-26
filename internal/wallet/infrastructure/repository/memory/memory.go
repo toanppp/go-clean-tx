@@ -1,4 +1,4 @@
-package wallet_repository_in_memory
+package memory
 
 import (
 	"context"
