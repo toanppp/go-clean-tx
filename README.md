@@ -50,18 +50,14 @@ Source: [MyTaskPanel Consulting](https://www.mytaskpanel.com)
 ├── internal
 │   ├── domain                          # Domain: entity, data model, domain services, interfaces
 │   ├── port                            # Port: interface for communicating between layers
-│   └── wallet                          # Implementation for each domain
-│       │
-│       ├── infrastructure              # External elements with which the application communicates, both input and output
-│       │   │
-│       │   ├── http                    # Entry point: an API with REST or GraphQL, messaging with RabbitMQ or via the command line, etc.
-│       │   │   ├── gin
-│       │   │   └── presenter           # Presenter (request/response format)
-│       │   │
-│       │   └── repository              # Exit point: a relational database with PostgreSQL, non-relational with MongoDB, or also sending messages with RabbitMQ, etc.
-│       │       └── memory
-│       │
-│       └── usecase                     # Business logic happens here
+│   │   └── mock
+│   ├── infrastructure                  # External elements with which the application communicates, both input and output
+│   │   ├── http                        # Entry point: an API with REST or GraphQL, messaging with RabbitMQ or via the command line, etc.
+│   │   │   ├── gin
+│   │   │   └── presenter
+│   │   └── repository                  # Exit point: a relational database with PostgreSQL, non-relational with MongoDB, or also sending messages with RabbitMQ, etc.
+│   │       └── memory
+│   └── usecase                         # Business logic happens here
 └── ...
 ```
 
