@@ -1,4 +1,4 @@
-package response
+package presenter
 
 type Response[T any] struct {
 	Data    T      `json:"data"`

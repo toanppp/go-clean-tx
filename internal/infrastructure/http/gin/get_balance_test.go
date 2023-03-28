@@ -10,11 +10,10 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/toanppp/go-clean-tx/internal/domain"
-	"github.com/toanppp/go-clean-tx/internal/mock"
-	"github.com/toanppp/go-clean-tx/internal/wallet/infrastructure/http/presenter"
+	"github.com/toanppp/go-clean-tx/internal/infrastructure/http/presenter"
+	"github.com/toanppp/go-clean-tx/internal/port/mock"
 	"github.com/toanppp/go-clean-tx/pkg/assert"
 	"github.com/toanppp/go-clean-tx/pkg/httpjson"
-	"github.com/toanppp/go-clean-tx/pkg/response"
 )
 
 func TestGetBalance(t *testing.T) {
@@ -32,7 +31,7 @@ func TestGetBalance(t *testing.T) {
 	mockEngine := newMockEngine(mockWalletUseCase)
 
 	// mock request
-	mockReq, err := httpjson.NewRequest(http.MethodGet, fmt.Sprintf("/v1/balance?id=%d", wallet.ID), nil)
+	mockReq, err := httpjson.NewRequest(http.MethodGet, fmt.Sprintf("/v1/wallet/balance?id=%d", wallet.ID), nil)
 	if err != nil {
 		t.Fatalf("cannot create new httpjson request: %v", err)
 	}
@@ -42,7 +41,7 @@ func TestGetBalance(t *testing.T) {
 	mockEngine.ServeHTTP(w, mockReq)
 
 	assert.StatusCode(t, w.Code, http.StatusOK)
-	assert.JSON(t, w.Body.String(), response.Response[presenter.Balance]{
+	assert.JSON(t, w.Body.String(), presenter.Response[presenter.Balance]{
 		Data: presenter.Balance{
 			Balance: wallet.Balance,
 		},
@@ -84,7 +83,7 @@ func TestGetBalanceFail(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// mock request
-			mockReq, err := httpjson.NewRequest(http.MethodGet, "/v1/balance?"+tt.params, nil)
+			mockReq, err := httpjson.NewRequest(http.MethodGet, "/v1/wallet/balance?"+tt.params, nil)
 			if err != nil {
 				t.Fatalf("cannot create new httpjson request: %v", err)
 			}
@@ -111,7 +110,7 @@ func TestGetBalanceError(t *testing.T) {
 	mockEngine := newMockEngine(mockWalletUseCase)
 
 	// mock request
-	req, err := httpjson.NewRequest(http.MethodGet, fmt.Sprintf("/v1/balance?id=%d", rand.Int63()), nil)
+	req, err := httpjson.NewRequest(http.MethodGet, fmt.Sprintf("/v1/wallet/balance?id=%d", rand.Int63()), nil)
 	if err != nil {
 		t.Fatalf("cannot create new httpjson request: %v", err)
 	}
@@ -121,8 +120,7 @@ func TestGetBalanceError(t *testing.T) {
 	mockEngine.ServeHTTP(w, req)
 
 	assert.StatusCode(t, w.Code, http.StatusInternalServerError)
-	assert.JSON(t, w.Body.String(), response.Response[any]{
-		Data:    nil,
+	assert.JSON(t, w.Body.String(), presenter.Response[any]{
 		Message: http.StatusText(http.StatusInternalServerError),
 		Error:   mockErr.Error(),
 	})

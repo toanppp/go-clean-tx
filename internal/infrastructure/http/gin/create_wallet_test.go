@@ -10,17 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/toanppp/go-clean-tx/internal/domain"
-	"github.com/toanppp/go-clean-tx/internal/mock"
+	"github.com/toanppp/go-clean-tx/internal/infrastructure/http/presenter"
 	"github.com/toanppp/go-clean-tx/internal/port"
-	"github.com/toanppp/go-clean-tx/internal/wallet/infrastructure/http/presenter"
+	"github.com/toanppp/go-clean-tx/internal/port/mock"
 	"github.com/toanppp/go-clean-tx/pkg/assert"
 	"github.com/toanppp/go-clean-tx/pkg/httpjson"
-	"github.com/toanppp/go-clean-tx/pkg/response"
 )
 
 func newMockEngine(mockWalletUseCase port.WalletUseCase) *gin.Engine {
 	mockEngine := gin.New()
-	RegisterWalletHTTP(mockEngine.Group(""), mockWalletUseCase)
+	RegisterHandle(mockEngine, mockWalletUseCase)
 	return mockEngine
 }
 
@@ -42,7 +41,7 @@ func TestCreateWallet(t *testing.T) {
 	mockBody := presenter.CreateWallet{
 		Balance: wallet.Balance,
 	}
-	mockReq, err := httpjson.NewRequest(http.MethodPost, "/v1", mockBody)
+	mockReq, err := httpjson.NewRequest(http.MethodPost, "/v1/wallet", mockBody)
 	if err != nil {
 		t.Fatalf("cannot create new httpjson request: %v", err)
 	}
@@ -52,7 +51,7 @@ func TestCreateWallet(t *testing.T) {
 	mockEngine.ServeHTTP(w, mockReq)
 
 	assert.StatusCode(t, w.Code, http.StatusOK)
-	assert.JSON(t, w.Body.String(), response.Response[domain.Wallet]{
+	assert.JSON(t, w.Body.String(), presenter.Response[domain.Wallet]{
 		Data:    wallet,
 		Message: http.StatusText(http.StatusOK),
 	})
@@ -87,7 +86,7 @@ func TestCreateWalletFail(t *testing.T) {
 			body := presenter.CreateWallet{
 				Balance: tt.balance,
 			}
-			mockReq, err := httpjson.NewRequest(http.MethodPost, "/v1", body)
+			mockReq, err := httpjson.NewRequest(http.MethodPost, "/v1/wallet", body)
 			if err != nil {
 				t.Fatalf("cannot create new httpjson request: %v", err)
 			}
@@ -117,7 +116,7 @@ func TestCreateWalletError(t *testing.T) {
 	body := presenter.CreateWallet{
 		Balance: rand.Int63(),
 	}
-	req, err := httpjson.NewRequest(http.MethodPost, "/v1", body)
+	req, err := httpjson.NewRequest(http.MethodPost, "/v1/wallet", body)
 	if err != nil {
 		t.Fatalf("cannot create new httpjson request: %v", err)
 	}
@@ -127,8 +126,7 @@ func TestCreateWalletError(t *testing.T) {
 	mockEngine.ServeHTTP(w, req)
 
 	assert.StatusCode(t, w.Code, http.StatusInternalServerError)
-	assert.JSON(t, w.Body.String(), response.Response[any]{
-		Data:    nil,
+	assert.JSON(t, w.Body.String(), presenter.Response[any]{
 		Message: http.StatusText(http.StatusInternalServerError),
 		Error:   mockErr.Error(),
 	})

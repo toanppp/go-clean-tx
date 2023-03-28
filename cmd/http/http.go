@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/toanppp/go-clean-tx/internal/domain"
-	walletGin "github.com/toanppp/go-clean-tx/internal/wallet/infrastructure/http/gin"
-	"github.com/toanppp/go-clean-tx/internal/wallet/infrastructure/repository/memory"
-	"github.com/toanppp/go-clean-tx/internal/wallet/usecase"
+	router "github.com/toanppp/go-clean-tx/internal/infrastructure/http/gin"
+	"github.com/toanppp/go-clean-tx/internal/infrastructure/repository/memory"
+	"github.com/toanppp/go-clean-tx/internal/usecase"
 )
 
 func main() {
@@ -16,8 +16,7 @@ func main() {
 
 	engine := gin.New()
 
-	wallet := engine.Group("wallet")
-	walletGin.RegisterWalletHTTP(wallet, walletUseCase)
+	router.RegisterHandle(engine, walletUseCase)
 
 	if err := engine.Run(); err != nil {
 		log.Print("gin.Engine.Run: ", err)

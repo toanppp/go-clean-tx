@@ -8,7 +8,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/toanppp/go-clean-tx/internal/domain"
-	"github.com/toanppp/go-clean-tx/internal/mock"
+	"github.com/toanppp/go-clean-tx/internal/port/mock"
 )
 
 func TestWalletUseCase_CreateWallet(t *testing.T) {

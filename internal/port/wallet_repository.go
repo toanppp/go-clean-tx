@@ -1,6 +1,6 @@
 package port
 
-//go:generate mockgen -source=./wallet_repository.go -destination=../mock/mock_wallet_repository.go -package=mock
+//go:generate mockgen -source=./wallet_repository.go -destination=./mock/mock_wallet_repository.go -package=mock
 
 import (
 	"context"
