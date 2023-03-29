@@ -23,9 +23,16 @@ func TestWalletUseCase_CreateWallet(t *testing.T) {
 		Balance: rand.Int63(),
 	}
 
-	mockRepo.EXPECT().CreateWallet(ctx, wallet.Balance).Return(wallet, nil)
+	var got domain.Wallet
 
-	got, err := testUseCase.CreateWallet(context.Background(), wallet.Balance)
+	mockRepo.EXPECT().CreateWallet(ctx, wallet.Balance).Return(wallet, nil)
+	mockRepo.EXPECT().WithinTransaction(ctx, gomock.Any()).Return(func() error {
+		w, err := mockRepo.CreateWallet(ctx, wallet.Balance)
+		got = w
+		return err
+	}())
+
+	_, err := testUseCase.CreateWallet(context.Background(), wallet.Balance)
 
 	if err != nil {
 		t.Fatalf("an error occurred: %v", err)

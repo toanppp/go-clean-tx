@@ -64,3 +64,17 @@ func (mr *MockWalletRepositoryMockRecorder) GetWalletByID(ctx, id interface{}) *
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWalletByID", reflect.TypeOf((*MockWalletRepository)(nil).GetWalletByID), ctx, id)
 }
+
+// WithinTransaction mocks base method.
+func (m *MockWalletRepository) WithinTransaction(arg0 context.Context, arg1 func(context.Context) error) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WithinTransaction", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WithinTransaction indicates an expected call of WithinTransaction.
+func (mr *MockWalletRepositoryMockRecorder) WithinTransaction(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithinTransaction", reflect.TypeOf((*MockWalletRepository)(nil).WithinTransaction), arg0, arg1)
+}

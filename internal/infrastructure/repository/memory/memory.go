@@ -2,6 +2,7 @@ package memory
 
 import (
 	"context"
+	"sync"
 	"sync/atomic"
 
 	"github.com/toanppp/go-clean-tx/internal/domain"
@@ -11,6 +12,7 @@ import (
 type walletRepository struct {
 	data      map[int64]domain.Wallet
 	increment *int64
+	sync.Mutex
 }
 
 func NewWalletRepository(data map[int64]domain.Wallet, increment int64) port.WalletRepository {
@@ -37,4 +39,11 @@ func (r *walletRepository) GetWalletByID(_ context.Context, id int64) (domain.Wa
 	}
 
 	return w, nil
+}
+
+func (r *walletRepository) WithinTransaction(ctx context.Context, tFunc func(ctx context.Context) error) error {
+	r.Lock()
+	defer r.Unlock()
+
+	return tFunc(ctx)
 }
