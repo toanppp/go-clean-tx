@@ -4,6 +4,7 @@ import (
 	"context"
 	"math/rand"
 	"reflect"
+	"sync"
 	"testing"
 
 	"github.com/toanppp/go-clean-tx/internal/domain"
@@ -42,6 +43,44 @@ func TestWalletRepository_CreateWallet(t *testing.T) {
 	if w1.ID >= w2.ID {
 		t.Errorf("increment id error: %d - %d", w1.ID, w2.ID)
 	}
+}
+
+func TestWalletRepository_WithinTransaction(t *testing.T) {
+	repo := NewWalletRepository(map[int64]domain.Wallet{}, 0)
+	mapID := make(map[int64]any, 100)
+
+	var wg sync.WaitGroup
+	wg.Add(100)
+
+	for i := 0; i < 100; i++ {
+		go func() {
+			defer wg.Done()
+
+			var w domain.Wallet
+			b := rand.Int63()
+
+			err := repo.WithinTransaction(context.Background(), func(ctx context.Context) (err error) {
+				w, err = repo.CreateWallet(context.Background(), b)
+				return
+			})
+
+			if err != nil {
+				t.Errorf("an error occurred: %v", err)
+				return
+			}
+
+			_, ok := mapID[w.ID]
+			if ok {
+				t.Errorf("duplicate id: %d", w.ID)
+			}
+
+			if w.Balance != b {
+				t.Errorf("wrong balance: got %d: want %d", w.Balance, 5)
+			}
+		}()
+	}
+
+	wg.Wait()
 }
 
 func TestWalletRepository_GetWalletByID(t *testing.T) {
