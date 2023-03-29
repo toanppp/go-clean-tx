@@ -10,9 +10,9 @@ import (
 	"github.com/toanppp/go-clean-tx/internal/domain"
 )
 
-func TestWalletRepository_CreateWallet(t *testing.T) {
+func TestWalletRepo_CreateWallet(t *testing.T) {
 	increment := rand.Int63n(100)
-	repo := NewWalletRepository(map[int64]domain.Wallet{}, increment)
+	repo := NewWalletRepo(map[int64]domain.Wallet{}, increment)
 
 	b1 := rand.Int63()
 	w1, err := repo.CreateWallet(context.Background(), b1)
@@ -45,8 +45,8 @@ func TestWalletRepository_CreateWallet(t *testing.T) {
 	}
 }
 
-func TestWalletRepository_WithinTransaction(t *testing.T) {
-	repo := NewWalletRepository(map[int64]domain.Wallet{}, 0)
+func TestWalletRepo_WithinTransaction(t *testing.T) {
+	repo := NewWalletRepo(map[int64]domain.Wallet{}, 0)
 	mapID := make(map[int64]any, 100)
 
 	var wg sync.WaitGroup
@@ -83,13 +83,13 @@ func TestWalletRepository_WithinTransaction(t *testing.T) {
 	wg.Wait()
 }
 
-func TestWalletRepository_GetWalletByID(t *testing.T) {
+func TestWalletRepo_GetWalletByID(t *testing.T) {
 	want := domain.Wallet{
 		ID:      rand.Int63(),
 		Balance: rand.Int63(),
 	}
 
-	repo := NewWalletRepository(map[int64]domain.Wallet{
+	repo := NewWalletRepo(map[int64]domain.Wallet{
 		want.ID: want,
 	}, rand.Int63())
 

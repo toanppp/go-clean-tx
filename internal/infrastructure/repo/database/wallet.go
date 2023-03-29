@@ -1,4 +1,4 @@
-package postgres
+package database
 
 import (
 	"context"
@@ -8,19 +8,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type walletRepository struct {
+type walletRepo struct {
 	transactor
 }
 
-func NewWalletRepository(db *gorm.DB) port.WalletRepository {
-	return &walletRepository{
+func _(db *gorm.DB) port.WalletRepo {
+	return &walletRepo{
 		transactor: transactor{
 			db: db,
 		},
 	}
 }
 
-func (r *walletRepository) CreateWallet(ctx context.Context, balance int64) (domain.Wallet, error) {
+func (r *walletRepo) CreateWallet(ctx context.Context, balance int64) (domain.Wallet, error) {
 	w := domain.Wallet{
 		Balance: balance,
 	}
@@ -32,7 +32,7 @@ func (r *walletRepository) CreateWallet(ctx context.Context, balance int64) (dom
 	return w, nil
 }
 
-func (r *walletRepository) GetWalletByID(ctx context.Context, id int64) (domain.Wallet, error) {
+func (r *walletRepo) GetWalletByID(ctx context.Context, id int64) (domain.Wallet, error) {
 	var w domain.Wallet
 	if err := r.tx(ctx).Take(&w, id).Error; err != nil {
 		return domain.Wallet{}, err

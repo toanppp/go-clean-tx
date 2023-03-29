@@ -55,8 +55,9 @@ Source: [MyTaskPanel Consulting](https://www.mytaskpanel.com)
 │   │   ├── http                        # Entry point: an API with REST or GraphQL, messaging with RabbitMQ or via the command line, etc.
 │   │   │   ├── gin
 │   │   │   └── presenter
-│   │   └── repository                  # Exit point: a relational database with PostgreSQL, non-relational with MongoDB, or also sending messages with RabbitMQ, etc.
-│   │       └── memory
+│   │   └── repo                        # Exit point: a relational database with PostgreSQL, non-relational with MongoDB, or also sending messages with RabbitMQ, etc.
+│   │       ├── memory
+│   │       └── database
 │   └── usecase                         # Business logic happens here
 └── ...
 ```

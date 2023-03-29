@@ -17,7 +17,7 @@ func TestWalletUseCase_CreateWallet(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	mockRepo := mock.NewMockWalletRepository(mockCtrl)
+	mockRepo := mock.NewMockWalletRepo(mockCtrl)
 	testUseCase := NewWalletUseCase(mockRepo)
 	ctx := context.Background()
 	wallet := domain.Wallet{
@@ -46,7 +46,7 @@ func TestWalletUseCase_CreateWallet_Error(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	mockRepo := mock.NewMockWalletRepository(mockCtrl)
+	mockRepo := mock.NewMockWalletRepo(mockCtrl)
 	testUseCase := NewWalletUseCase(mockRepo)
 	ctx := context.Background()
 	err := errors.New(http.StatusText(http.StatusInternalServerError))
@@ -71,7 +71,7 @@ func TestWalletUseCase_GetBalanceByID(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	mockRepo := mock.NewMockWalletRepository(mockCtrl)
+	mockRepo := mock.NewMockWalletRepo(mockCtrl)
 	testUseCase := NewWalletUseCase(mockRepo)
 	ctx := context.Background()
 	wallet := domain.Wallet{

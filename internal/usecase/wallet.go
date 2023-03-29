@@ -8,20 +8,20 @@ import (
 )
 
 type walletUseCase struct {
-	walletRepository port.WalletRepository
+	walletRepo port.WalletRepo
 }
 
-func NewWalletUseCase(walletRepository port.WalletRepository) port.WalletUseCase {
+func NewWalletUseCase(walletRepo port.WalletRepo) port.WalletUseCase {
 	return &walletUseCase{
-		walletRepository: walletRepository,
+		walletRepo: walletRepo,
 	}
 }
 
 func (u *walletUseCase) CreateWallet(ctx context.Context, balance int64) (domain.Wallet, error) {
 	var wallet domain.Wallet
 
-	err := u.walletRepository.WithinTransaction(ctx, func(txCtx context.Context) error {
-		w, err := u.walletRepository.CreateWallet(txCtx, balance)
+	err := u.walletRepo.WithinTransaction(ctx, func(txCtx context.Context) error {
+		w, err := u.walletRepo.CreateWallet(txCtx, balance)
 		if err != nil {
 			return err
 		}
@@ -38,7 +38,7 @@ func (u *walletUseCase) CreateWallet(ctx context.Context, balance int64) (domain
 }
 
 func (u *walletUseCase) GetBalanceByID(ctx context.Context, id int64) (int64, error) {
-	w, err := u.walletRepository.GetWalletByID(ctx, id)
+	w, err := u.walletRepo.GetWalletByID(ctx, id)
 	if err != nil {
 		return 0, err
 	}
