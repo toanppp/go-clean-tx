@@ -7,7 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/golang/mock v1.6.0
 	gorm.io/driver/sqlite v1.4.4
-	gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
+	gorm.io/gorm v1.24.0
 )
 
 require (
