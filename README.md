@@ -33,9 +33,9 @@ Source: [MyTaskPanel Consulting](https://www.mytaskpanel.com)
 
 ```
 .
-├── cmd                                 # Main applications
-├── internal                            # Private application and library code
-├── pkg                                 # Library code that's ok to use by external applications
+├── cmd                     # Main applications
+├── internal                # Private application and library code
+├── pkg                     # Library code that's ok to use by external applications
 ├── go.mod
 ├── go.sum
 ├── LICENSE
@@ -48,17 +48,17 @@ Source: [MyTaskPanel Consulting](https://www.mytaskpanel.com)
 .
 ├── ...
 ├── internal
-│   ├── domain                          # Domain: entity, data model, domain services, interfaces
-│   ├── port                            # Port: interface for communicating between layers
+│   ├── domain              # Domain: entity, data model
+│   ├── port                # Port: interface for communicating between layers
 │   │   └── mock
-│   ├── infrastructure                  # External elements with which the application communicates, both input and output
-│   │   ├── http                        # Entry point: an API with REST or GraphQL, messaging with RabbitMQ or via the command line, etc.
+│   ├── infrastructure      # External elements with which the application communicates, both input and output
+│   │   ├── http            # Entry point: an API with REST or GraphQL, messaging with RabbitMQ or via CLI, etc.
 │   │   │   ├── gin
 │   │   │   └── presenter
-│   │   └── repo                        # Exit point: a relational database with PostgreSQL, non-relational with MongoDB, or also sending messages with RabbitMQ, etc.
+│   │   └── repo            # Exit point: a database with PostgreSQL, MongoDB, or sending messages with RabbitMQ, etc.
 │   │       ├── memory
 │   │       └── database
-│   └── usecase                         # Business logic happens here
+│   └── usecase             # Business logic happens here
 └── ...
 ```
 
