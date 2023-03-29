@@ -10,11 +10,11 @@ import (
 )
 
 func main() {
-	walletRepo := database.NewWalletRepo(database.NewDB())
+	db := database.NewDB()
+	walletRepo := database.NewWalletRepo(db)
 	walletUseCase := usecase.NewWalletUseCase(walletRepo)
 
 	engine := gin.New()
-
 	router.RegisterHandle(engine, walletUseCase)
 
 	if err := engine.Run(); err != nil {

@@ -17,31 +17,15 @@ func NewWalletUseCase(walletRepo port.WalletRepo) port.WalletUseCase {
 	}
 }
 
-func (u *walletUseCase) CreateWallet(ctx context.Context, balance int64) (domain.Wallet, error) {
-	var wallet domain.Wallet
-
-	err := u.walletRepo.WithinTransaction(ctx, func(txCtx context.Context) error {
-		w, err := u.walletRepo.CreateWallet(txCtx, balance)
-		if err != nil {
-			return err
-		}
-
-		wallet = w
-		return nil
+func (u *walletUseCase) CreateWallet(ctx context.Context, balance int64) (wallet domain.Wallet, err error) {
+	err = u.walletRepo.WithinTransaction(ctx, func(txCtx context.Context) (err error) {
+		wallet, err = u.walletRepo.CreateWallet(txCtx, balance)
+		return
 	})
-
-	if err != nil {
-		return domain.Wallet{}, err
-	}
-
-	return wallet, nil
+	return
 }
 
 func (u *walletUseCase) GetBalanceByID(ctx context.Context, id int64) (int64, error) {
-	w, err := u.walletRepo.GetWalletByID(ctx, id)
-	if err != nil {
-		return 0, err
-	}
-
-	return w.Balance, nil
+	wallet, err := u.walletRepo.GetWalletByID(ctx, id)
+	return wallet.Balance, err
 }

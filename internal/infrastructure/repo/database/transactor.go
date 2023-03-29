@@ -35,7 +35,7 @@ func (t *transactor) WithinTransaction(ctx context.Context, tFunc func(ctx conte
 	// run callback
 	if err := tFunc(injectTx(ctx, tx)); err != nil {
 		// if error, rollback
-		if err := tx.Rollback(); err != nil {
+		if err := tx.Rollback().Error; err != nil {
 			log.Printf("cannot rollback transaction: %v", err)
 		}
 
@@ -52,8 +52,7 @@ func (t *transactor) WithinTransaction(ctx context.Context, tFunc func(ctx conte
 
 // tx returns context with or without transaction extracted from context
 func (t *transactor) tx(ctx context.Context) *gorm.DB {
-	tx := extractTx(ctx)
-	if tx != nil {
+	if tx := extractTx(ctx); tx != nil {
 		return tx.WithContext(ctx)
 	}
 

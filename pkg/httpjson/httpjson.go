@@ -13,10 +13,5 @@ func NewRequest(method, url string, body any) (*http.Request, error) {
 		return nil, fmt.Errorf("cannot marshal body: %w", err)
 	}
 
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(p))
-	if err != nil {
-		return nil, fmt.Errorf("cannot create new request: %w", err)
-	}
-
-	return req, nil
+	return http.NewRequest(method, url, bytes.NewBuffer(p))
 }
