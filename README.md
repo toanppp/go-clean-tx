@@ -5,7 +5,7 @@ Go Clean Architecture with transaction
 ## Todo
 
 - [x] Clean architecture
-- [ ] Clean transaction
+- [x] Clean transaction
 
 ## Run
 

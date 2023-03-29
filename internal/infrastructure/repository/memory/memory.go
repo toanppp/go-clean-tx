@@ -3,6 +3,7 @@ package memory
 import (
 	"context"
 	"sync"
+	"sync/atomic"
 
 	"github.com/toanppp/go-clean-tx/internal/domain"
 	"github.com/toanppp/go-clean-tx/internal/port"
@@ -10,22 +11,20 @@ import (
 
 type walletRepository struct {
 	data      map[int64]domain.Wallet
-	increment int64
+	increment *int64
 	mu        sync.Mutex
 }
 
 func NewWalletRepository(data map[int64]domain.Wallet, increment int64) port.WalletRepository {
 	return &walletRepository{
 		data:      data,
-		increment: increment,
+		increment: &increment,
 	}
 }
 
 func (r *walletRepository) CreateWallet(_ context.Context, balance int64) (domain.Wallet, error) {
-	r.increment++
-
 	w := domain.Wallet{
-		ID:      r.increment,
+		ID:      atomic.AddInt64(r.increment, 1),
 		Balance: balance,
 	}
 
