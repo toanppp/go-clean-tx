@@ -43,7 +43,7 @@ func (t *transactor) WithinTransaction(ctx context.Context, tFunc func(ctx conte
 	}
 
 	// if no error, commit
-	if err := tx.Commit(); err != nil {
+	if err := tx.Commit().Error; err != nil {
 		log.Printf("cannot commit transaction: %v", err)
 	}
 

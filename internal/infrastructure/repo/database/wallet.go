@@ -12,7 +12,7 @@ type walletRepo struct {
 	transactor
 }
 
-func _(db *gorm.DB) port.WalletRepo {
+func NewWalletRepo(db *gorm.DB) port.WalletRepo {
 	return &walletRepo{
 		transactor: transactor{
 			db: db,

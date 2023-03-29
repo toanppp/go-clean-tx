@@ -4,14 +4,13 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/toanppp/go-clean-tx/internal/domain"
 	router "github.com/toanppp/go-clean-tx/internal/infrastructure/http/gin"
-	"github.com/toanppp/go-clean-tx/internal/infrastructure/repo/memory"
+	"github.com/toanppp/go-clean-tx/internal/infrastructure/repo/database"
 	"github.com/toanppp/go-clean-tx/internal/usecase"
 )
 
 func main() {
-	walletRepo := memory.NewWalletRepo(map[int64]domain.Wallet{}, 0)
+	walletRepo := database.NewWalletRepo(database.NewDB())
 	walletUseCase := usecase.NewWalletUseCase(walletRepo)
 
 	engine := gin.New()
